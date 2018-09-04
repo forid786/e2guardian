@@ -41,7 +41,7 @@ language = 'ukenglish'
 #Enable all debug informations but without ICAP, NETWORK and FILTER debug informations
 #by default disabled, if this option is required just uncomment the line below
 #works also with e2guardian -N (-N Do not go into the background)
-#Possible value : ICAP CLAMAV ICAPC (icap client) 
+#Possible value : ICAP CLAMAV 02/01/2018
 #debuglevel = 'ALL'
 
 #Directory for result of debug level (log)
@@ -127,7 +127,6 @@ logfileformat = 6
 
 # Container mode
 # the process will not fork into the background AND log in stdout 
-# In this mode systemd service is disabled !
 # Default:
 #dockermode = off
 
@@ -503,8 +502,7 @@ contentscannertimeout = 60
 #@NTLMSUPPORT@authplugin = '@DGCONFDIR@/authplugins/proxy-ntlm.conf'
 #authplugin = '@DGCONFDIR@/authplugins/ident.conf'
 #authplugin = '@DGCONFDIR@/authplugins/ip.conf'
-#authplugin = '@DGCONFDIR@/authplugins/proxy-header.conf'
-#authplugin = '@DGCONFDIR@/authplugins/port.conf'
+#authplugin = '@DGCONFDIR@/proxy-header.conf'
 
 # Map auth to ports
 # If enabled map auth plugins to ips/ports - number of authplugins must then be same as
@@ -556,7 +554,8 @@ logconnectionhandlingerrors = on
 # This figure is the maximum number of concurrent connections.
 # If more connections are made, connections will queue until a worker thread is free.
 # On large site you might want to try 5000 (max value 20000)
-httpworkers = 500 
+httpworkers = 200
+
 
 # Process options
 # (Change these only if you really know what you are doing).

@@ -50,12 +50,12 @@ public:
     bool non_standard_delimiter;
 
     //SSL certificate checking
-    bool ssl_check_cert = false;
+    bool ssl_check_cert;
 
     //SSL Man in the middle
-    bool ssl_mitm = false;
-    bool only_mitm_ssl_grey = false;
-    bool mitm_check_cert = true;
+    bool ssl_mitm;
+    bool only_mitm_ssl_grey;
+    bool mitm_check_cert;
 
 #ifdef ENABLE_EMAIL
     // Email notification patch by J. Gauthier
@@ -95,7 +95,7 @@ public:
     bool use_only_local_allow_lists;
 
     bool url_redirect_regexp_flag;
-    bool allow_empty_host_certs = false;
+    bool allow_empty_host_certs;
 
 
     // regex search & replace lists
@@ -108,14 +108,17 @@ public:
     std::string sslaccess_denied_address;
     String access_denied_domain;
     String sslaccess_denied_domain;
-    bool ssl_denied_rewrite = false;
+    bool ssl_denied_rewrite;
     // search term blocking
     unsigned int searchterm_list;
-    bool searchterm_flag = false;
+    bool searchterm_flag;
 
     FOptionContainer()
-            :  searchterm_flag(false), banned_page(NULL)
-               {};
+            :  searchterm_flag(false), banned_page(NULL), ssl_mitm(false),
+              only_mitm_ssl_grey(false), ssl_check_cert(false), mitm_check_cert(true),
+              banned_phrase_flag(false),
+              content_regexp_flag(false),
+              ssl_denied_rewrite(false) {};
 
     ~FOptionContainer();
     bool read(const char *filename);
@@ -139,13 +142,13 @@ public:
 
     private:
     // HTML template - if it overrides the default
-    HTMLTemplate *banned_page = nullptr;
-    HTMLTemplate *neterr_page = nullptr;
+    HTMLTemplate *banned_page;
+    HTMLTemplate *neterr_page;
 
     ListMeta LMeta;
 
-    bool banned_phrase_flag = false;
-    bool content_regexp_flag = false;
+    bool banned_phrase_flag;
+    bool content_regexp_flag;
 #ifdef PRT_DNSAUTH
     bool auth_exception_site_flag;
     bool auth_exception_url_flag;

@@ -134,16 +134,16 @@ class NaughtyFilter
 
     // should the browser use the categories string or the displaycategories string?
     // (related to category list thresholding)
-    bool usedisplaycats = false;
+    bool usedisplaycats;
     // blocked data type - 0 = response body, 1 = request body (POST data),
     // 2 = URL parameters (search terms)
-    int blocktype = 0;
+    int blocktype;
     // flag for use by ContentScanners to say whether data should be stored
     // for future inspection.  storage only implemented for POST data.
-    bool store = false;
+    bool store;
 
-    int message_no = 0;
-    int log_message_no = 0;
+    int message_no;
+    int log_message_no;
 
     // the reason for banning, what to say about it in the logs, and the
     // categories under which banning has taken place
@@ -166,7 +166,7 @@ class NaughtyFilter
 
     // highest positive (or lowest negative) weighting out of
     // both phrase filtering passes (smart/raw)
-    int naughtiness = 0;
+    int naughtiness;
     String lastcategory;
 
     private:

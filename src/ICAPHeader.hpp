@@ -22,8 +22,8 @@ class ICAPHeader
 {
     public:
     std::deque<String> header;
-    unsigned int port = 0;
-    bool is_response = false;
+    unsigned int port;
+    bool is_response;
     HTTPHeader HTTPrequest;
     HTTPHeader HTTPresponse;
     String icap_error;
@@ -134,11 +134,13 @@ class ICAPHeader
     String URLEncode();
 
     ICAPHeader()
+        : port(0), timeout(120000),  dirty(true), is_response(false)
     {
         reset();
     };
 
     ICAPHeader(int type)
+            : port(0), timeout(120000),  dirty(true), is_response(false)
     {
         reset();
         setType(type);
@@ -157,7 +159,7 @@ class ICAPHeader
 
        private:
         // timeout for socket operations
-        int timeout = 120000;
+        int timeout;
 
 
     // header index pointers
@@ -191,7 +193,7 @@ class ICAPHeader
 
 
 
-    bool dirty = true;
+    bool dirty;
 
 
     // check & fix headers from servers that don't obey standards

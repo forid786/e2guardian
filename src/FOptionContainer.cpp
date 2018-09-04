@@ -72,15 +72,8 @@ FOptionContainer::~FOptionContainer()
 void FOptionContainer::reset()
 {
     conffile.clear();
-    if (neterr_page != nullptr)
-    {
-        delete neterr_page;
-        neterr_page = nullptr;
-    }
-    if (banned_page != nullptr) {
-        delete banned_page;
-        banned_page = nullptr;
-    }
+    delete banned_page;
+    banned_page = NULL;
     resetJustListData();
 }
 
@@ -470,17 +463,7 @@ bool FOptionContainer::read(const char *filename) {
                     return false;
                     // HTML template file
                 }
-            } else {  // if blank will default to HTML template file
-                neterr_template = o.languagepath + "template.html";
-                neterr_page = new HTMLTemplate;
-                if (!(neterr_page->readTemplateFile(neterr_template.toCharArray()))) {
-                    if (!is_daemonised) {
-                        std::cerr << thread_id << "Error reading default HTML and NetErr Template file: " << html_template << std::endl;
-                    }
-                    syslog(LOG_ERR, "Error reading default HTML and NetErr Template file: %s", html_template.toCharArray());
-                    return false;
-	        }
-	    } 
+            }   // if blank will default to HTML template file
         }
 
         // override ssl default banned page
@@ -566,7 +549,7 @@ bool FOptionContainer::read(const char *filename) {
             if (!o.lm.readbplfile(banned_phrase_list_location.c_str(),
                                   exception_phrase_list_location.c_str(),
                                   weighted_phrase_list_location.c_str(), banned_phrase_list,
-                                  force_quick_search, naughtyness_limit)) {
+                                  force_quick_search)) {
                 return false;
             } // read banned, exception, weighted phrase list
             banned_phrase_flag = true;
@@ -669,7 +652,7 @@ bool FOptionContainer::read(const char *filename) {
                         if (!o.lm.readbplfile(banned_searchterm_list_location.c_str(),
                                               exception_searchterm_list_location.c_str(),
                                               weighted_searchterm_list_location.c_str(), searchterm_list,
-                                              force_quick_search, naughtyness_limit)) {
+                                              force_quick_search)) {
                             return false;
                         }
                         searchterm_flag = true;

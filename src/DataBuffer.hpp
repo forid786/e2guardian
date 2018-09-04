@@ -20,15 +20,15 @@ class DataBuffer
     public:
     char *data;
     off_t buffer_length;
-    char *compresseddata= nullptr;
-    off_t compressed_buffer_length = 0;
-    off_t tempfilesize = 0;
+    char *compresseddata;
+    off_t compressed_buffer_length;
+    off_t tempfilesize;
     String tempfilepath;
-    bool dontsendbody = false; // used for fancy download manager for example
-    bool chunked = false;
-    bool icap = false;
-    bool got_all = false;   // used with chunked it all read-in
-    int tempfilefd = -1;
+    bool dontsendbody; // used for fancy download manager for example
+    bool chunked;
+    bool icap;
+    bool got_all;   // used with chunked it all read-in
+    int tempfilefd;
 
     // the download manager we used during the last "in"
     DMPlugin *dm_plugin;
@@ -88,10 +88,10 @@ class DataBuffer
     friend class trickledm;
 #endif
 
-    int timeout = 20000;  // in msecs
-    int stimeout = 20;   // in secs
-    off_t bytesalreadysent = 0;
-    bool preservetemp = false;
+    int timeout;  // in msecs
+    int stimeout;   // in secs
+    off_t bytesalreadysent;
+    bool preservetemp;
 
     String decompress;
 

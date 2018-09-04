@@ -59,7 +59,6 @@ bool ICAPHeader::setEncapRecs() {
         encap_recs.push_back(erec);
         t = t.after(", ");
     }
-    return true;
 }
 
 // reset header object for future use
@@ -146,6 +145,7 @@ int ICAPHeader::returnCode()    // does not apply to ICAP ?  May do if we use fo
 
 void ICAPHeader::checkheader(bool allowpersistent)
 {
+    bool outgoing = true;
     if (header.size() > 1) {
     for (std::deque<String>::iterator i = header.begin() + 1; i != header.end(); i++) { // check each line in the headers
         // index headers - try to perform the checks in the order the average browser sends the headers.

@@ -29,7 +29,6 @@ bannedregexpurllist \
 bannedregexpuseragentlist \
 bannedsearchlist \
 bannedsiteiplist \
-exceptionvirussiteiplist \
 bannedsitelist \
 bannedsitelistwithbypass \
 bannedsslsiteiplist \
@@ -40,7 +39,6 @@ embededreferersiteiplist \
 embededreferersitelist \
 embededrefererurllist \
 exceptionextensionlist \
-exceptionvirusextensionlist \
 exceptionfilesiteiplist \
 exceptionfilesitelist \
 exceptionfileurllist \

@@ -366,5 +366,4 @@ int commandlineinstance::scanFile(HTTPHeader *requestheader, HTTPHeader *dochead
 
     if (returncode != 0)
         return DGCS_SCANERROR;
-    return 0;
 }

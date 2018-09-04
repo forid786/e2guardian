@@ -1,9 +1,9 @@
-This is the v5develop development version (v5.3).  
+This is the v5 stable version (v5.1).  
 
 Note that large sections of the code has been re-written and there are
-significant changes to the configuration files in v5.
+significant changes to the configuration files in this release.
 
-V5 is written in c++11 and so to compile it you will need gcc v5.4 
+The v5 is written in c++11 and so to compile it you will need gcc v5.4 
 or later. (or another complier that supports the full c++11).  
 Note that the target systems may also need an c++11 library update.
 
@@ -129,34 +129,31 @@ OPENSSL v1.1 SUPPORT
 
     Will now support OpenSSL v1.1 as well as v1.0.2 or above
 
-% OPTION FOR PHRASE LISTS
-
-    New % weighting option for phrase lists
-
-Amended code so that -Wall compile option gives no warnings 
-
 TESTING -  
 ---------
 
-    Please prefix all bug reports with "V5develop: "
+    This version is at a pre-release stage. 
 
-TO DO IN THIS RELEASE
----------------------
+    Please test all functions.
 
-    Reduce unnecessary memory usage on in DataBuffer
+    Please prefix all bug reports with "V5.1: "
 
-    Transparent HTTP/HTTPS on ports other than 80/443
+
+TODO - for this release before production.
+-----------------------------------------
+
+TODO - for next releases.
+-----------------------
+
+    Amend code so that -Wall compile option gives no warnings.
 
     Make SSL sockets non-blocking so time-out works with MITM
 
-    Implement a "learning" mode,  test the rules effects without block  
+    Transparent HTTP/HTTPS on ports other than 80/443
 
-    Polish new debug feature
+    Reduce unnecessary memory usage on in DataBuffer
 
-    Multi-tenancy mode first stage (may be in later or branched release)
-
-TODO - for later releases.
------------------------
+    New % weighting option for phrase lists
 
     POST content filtering
 
@@ -169,17 +166,13 @@ TODO - for later releases.
         option.
 
     Extend new debug feature to further modules
+    
+    Adding a 'control' port (something similar to REST API) to pass commands (eg: reload, update lists, etc) and check status
+    
+    Implement a "learning" mode,  test the rules effects without block  
 
 WISHLIST
 --------
-
-    Adding a 'control' port (something similar to REST API) to pass commands 
-         (eg: reload, update lists, etc) and check status
-
-    Multi-tenancy option.
-
-    Support for authenticaion helpers to allow ntlm, basic etc auth
-         without using squid proxy.
 
     Re-impliment mailing option.
 
@@ -191,8 +184,6 @@ WISHLIST
 
     HTTP/2 support (v6)
 
-    IPv6 support (v6)
-
-Philip Pearce 17 August 2018
+Philip Pearce 18 April 2018
 
 

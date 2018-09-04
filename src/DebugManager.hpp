@@ -27,7 +27,6 @@ class DebugManager
 		bool Filter (std::string s);
 	public:	
 		bool ICAP = false;
-		bool ICAPC = false;
 		bool CLAMAV = false;
 		bool THTTPS = false;
 		bool PROXY = false;
