@@ -47,13 +47,14 @@ class ListContainer
     public:
     std::vector<int> combilist;
     bool is_iplist = false;
-    int refcount;
-    bool parent;
+    int refcount = 0;
+    bool parent = false;
     time_t filedate;
-    bool used;
+    bool used = false;
     String bannedpfile;
     String exceptionpfile;
     String weightedpfile;
+    int naughtynesslimit = 0;   // used for phrase lists only
     time_t bannedpfiledate;
     time_t exceptionpfiledate;
     time_t weightedpfiledate;
@@ -68,7 +69,7 @@ class ListContainer
 
     void reset();
 
-    bool readPhraseList(const char *filename, bool isexception, int catindex = -1, int timeindex = -1, bool incref = true);
+    bool readPhraseList(const char *filename, bool isexception, int catindex = -1, int timeindex = -1, bool incref = true, int nlimit=0);
     bool ifsreadItemList(std::istream *input, int len, bool checkendstring, const char *endstring, bool do_includes, bool startswith, int filters);
     bool ifsReadSortItemList(std::ifstream *input, bool checkendstring, const char *endstring, bool do_includes, bool startswith, int filters, const char *filename);
     bool readItemList(const char *filename, bool startswith, int filters, bool isip = false);
@@ -100,8 +101,8 @@ class ListContainer
     bool previousUseItem(const char *filename, bool startswith, int filters);
     bool upToDate();
 
-    String getListCategoryAt(int index, int *catindex = NULL);
-    String getListCategoryAtD(int index);
+    String getListCategoryAt(unsigned int index, unsigned int *catindex = NULL);
+    String getListCategoryAtD(unsigned int index);
 
     void graphSearch(std::map<std::string, std::pair<unsigned int, int> > &result, char *doc, off_t len);
 
@@ -115,40 +116,40 @@ class ListContainer
     bool blanketssl_ip_block;
 
     private:
-    bool sourceisexception;
-    bool sourcestartswith;
-    int sourcefilters;
-    char *data;
+    bool sourceisexception = false;
+    bool sourcestartswith = false;
+    int sourcefilters = 0;
+    char *data = nullptr;
 
     // Format of the data is each entry has 64 int values with format of:
     // [letter][last letter flag][num links][from phrase][link0][link1]...
 
-    int *realgraphdata;
-    int current_graphdata_size;
+    int *realgraphdata = nullptr;
+    int current_graphdata_size = 0;
 
 #ifdef DGDEBUG
-    bool prolificroot;
-    int secondmaxchildnodes;
+    bool prolificroot = false;
+    int secondmaxchildnodes = 0;
 #endif
 
-    int maxchildnodes;
-    int graphitems;
+    int maxchildnodes = 0;
+    int graphitems = 0;
     std::vector<unsigned int> slowgraph;
-    size_t data_length;
-    size_t data_memory;
-    long int items;
-    bool isSW;
-    bool issorted;
-    bool graphused;
+    size_t data_length = 0;
+    size_t data_memory = 0;
+    long int items = 0;
+    bool isSW = false;
+    bool issorted = false;
+    bool graphused = false;
     std::vector<size_t> list;
-    std::vector<size_t> lengthlist;
+    std::vector<size_t> lengthlist ;
     std::vector<int> weight;
     std::vector<int> itemtype; // 0=banned, 1=weighted, -1=exception
-    bool force_quick_search;
+    bool force_quick_search = false;
 
     //time-limited lists - only items (sites, URLs), not phrases
     TimeLimit listtimelimit;
-    bool istimelimited;
+    bool istimelimited = false;
 
     //categorised lists - both phrases & items
     std::vector<String> listcategory;
@@ -167,7 +168,7 @@ class ListContainer
 
     bool readAnotherItemList(const char *filename, bool startswith, int filters);
 
-    void readPhraseListHelper(String line, bool isexception, int catindex, int timeindex);
+    void readPhraseListHelper(String line, bool isexception, int catindex, int timeindex, int &nlimit);
     void readPhraseListHelper2(String phrase, int type, int weighting, int catindex, int timeindex);
     bool addToItemListPhrase(const char *s, size_t len, int type, int weighting, bool combi, int catindex, int timeindex);
     void graphSizeSort(int l, int r, std::deque<size_t> *sizelist);

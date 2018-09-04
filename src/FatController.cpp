@@ -280,8 +280,9 @@ void monitor_flag_set(bool action)
         ftouch += "paused";
     }
 
-    mode_t old_umask;
-    old_umask = umask(S_IWOTH);
+    //mode_t old_umask;
+    //old_umask = umask(S_IWOTH);
+    umask(S_IWOTH);
     FILE *fs = fopen(ftouch.c_str(), "w");
     if (!fs) {
         syslog(LOG_ERR, "Unable to open monitor_flag %s for writing\n",
@@ -469,7 +470,11 @@ bool daemonise()
     close(nullfd);
 
     setsid(); // become session leader
-    int dummy = chdir("/"); // change working directory
+    //int dummy = chdir("/"); // change working directory
+    if (chdir("/") != 0) {// change working directory
+	std::cerr << thread_id << " Can't change / directory !"  << std::endl;
+	return false;
+    }
     umask(0); // clear our file mode creation mask
     umask(S_IWGRP | S_IWOTH); // set to mor sensible setting??
 
@@ -494,7 +499,7 @@ void handle_connections(int tindex)
         while (!ttg) {  // extra loop in order to delete and create ConnentionHandler on new lists or error
             ConnectionHandler h;
             // the class that handles the connections
-	    int rc = 0;
+	    //int rc = 0;
 	    String ip;
 #ifdef DGDEBUG
             std::cerr << thread_id << " in  handle connection"  << std::endl;
@@ -521,9 +526,11 @@ void handle_connections(int tindex)
                 ++dystat->busychildren;
                 ++dystat->conx;
 
-                rc = h.handlePeer(*peersock, peersockip, dystat, rec.ct_type); // deal with the connection
 #ifdef DGDEBUG
+                int rc = h.handlePeer(*peersock, peersockip, dystat, rec.ct_type); // deal with the connection
                 std::cerr << thread_id << "handle_peer returned: " << rc << std::endl;
+#else
+                h.handlePeer(*peersock, peersockip, dystat, rec.ct_type); // deal with the connection
 #endif
                 --dystat->busychildren;
                 delete peersock;
@@ -743,7 +750,7 @@ void log_listener(std::string log_location, bool logconerror, bool logsyslog) {
         bool error = true;
         int itemcount = 0;
         //char * dup = strdup(loglines.c_str());
-        const char *delim = "\n";
+        //const char *delim = "\n";
         std::istringstream iss(loglines);
         std::string logline;
         std::shared_ptr <LOptionContainer> ldl;
@@ -1225,7 +1232,7 @@ void log_listener(std::string log_location, bool logconerror, bool logsyslog) {
                                     else
                                         fprintf(mail, "Subject: %s\n", ldl->fg[filtergroup]->contentsubject.c_str());
 
-                                    fprintf(mail, "%i violation%s ha%s occured within %i seconds.\n",
+                                    fprintf(mail, "%i violation%s ha%s occurred within %i seconds.\n",
                                         curv_tmp,
                                         (curv_tmp == 1) ? "" : "s",
                                         (curv_tmp == 1) ? "s" : "ve",
@@ -1374,7 +1381,7 @@ int fc_controlit()   //
 
     serversockets.reset(serversocketcount);
     int *serversockfds = serversockets.getFDAll();
-    std::thread *listen_treads[serversocketcount];
+    //std::thread *listen_treads[serversocketcount];
     for (int i = 0; i < serversocketcount; i++) {
         // if the socket fd is not +ve then the socket creation failed
         if (serversockfds[i] < 0) {
@@ -1566,7 +1573,7 @@ int fc_controlit()   //
 
 
     sigset_t signal_set;
-    pthread_t signal_thread_id;
+    //pthread_t signal_thread_id;
     struct timespec timeout;
     int stat;
     sigemptyset(&signal_set);
@@ -1632,7 +1639,7 @@ int fc_controlit()   //
     if (reloadconfig) {
         syslog(LOG_INFO, "Reconfiguring E2guardian: done");
     } else {
-        syslog(LOG_INFO, "Started sucessfully.");
+        syslog(LOG_INFO, "Started successfully.");
         dystat->start();
     }
     reloadconfig = false;

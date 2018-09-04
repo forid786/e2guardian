@@ -79,7 +79,8 @@ void DebugManager::Debug(std::string value, std::string output,...)
 				va_start(ap,output);
 				char * p = new char[output.length()+1]; 
 				strcpy(p,output.c_str());
-				char * v;
+				char buff[2000];
+				char * v = buff;
 				int n;
 				while(*(p+i)!='\0')
 				{
@@ -151,6 +152,7 @@ void DebugManager::LoadParam()
 	bool checkfilter = false;
 
 	bool checkicap = false;
+	bool checkicapc = false;
 	bool checkclamav = false;
 	bool checkthttps = false;
 	bool checkproxy = false;
@@ -161,6 +163,7 @@ void DebugManager::LoadParam()
 			if(liste[i].find("-") == std::string::npos)
 			{
 				ICAP = true;
+				ICAPC = true;
 				CLAMAV = true;
 				THTTPS = true;
 				PROXY = true;
@@ -168,6 +171,7 @@ void DebugManager::LoadParam()
 			else
 			{
 				ICAP = false;
+				ICAPC = false;
 				CLAMAV = false;
 				THTTPS = false;
 				PROXY = false;
@@ -180,12 +184,14 @@ void DebugManager::LoadParam()
 			if(liste[i].find("-") == std::string::npos)
 			{
 				ICAP = true;
+				ICAPC = true;
 				THTTPS = true;
 				PROXY = true;
 			}
 			else
 			{
 				ICAP = false;
+				ICAPC = false;
 				THTTPS = false;
 				PROXY = false;
 			}
@@ -205,6 +211,20 @@ void DebugManager::LoadParam()
 			CheckFlag(checkicap);
 			checkicap = true;
 		}
+                if(liste[i].find("ICAPC") != std::string::npos)
+                {
+                        if(liste[i].find("-") == std::string::npos)
+                        {
+                                ICAPC = true;
+                        }
+                        else
+                        {
+                                ICAPC = false;
+                        }
+                        CheckFlag(checkicapc);
+                        checkicap = true;
+                }
+
 		if(liste[i].find("CLAMAV") != std::string::npos)
 		{
 			if(liste[i].find("-") == std::string::npos)
@@ -252,7 +272,7 @@ void DebugManager::CheckFlag(bool flag)
 	if(flag)
 	{
 		openlog("e2guardian", LOG_PID | LOG_CONS, LOG_USER);
-		syslog(LOG_INFO, "WARNING : Ambigous syntax of debuglevel in e2guardian.conf");
+		syslog(LOG_INFO, "WARNING : Ambiguous syntax of debuglevel in e2guardian.conf");
 		closelog();
 	}
 }

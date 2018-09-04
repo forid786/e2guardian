@@ -26,6 +26,7 @@ if(connect) return sslrequestcheck
 ifnot(greyset) returnif exceptioncheck
 ifnot(greyset) greycheck
 ifnot(greyset) returnif bannedcheck
+if(fullurlin,redirect) return setredirect
 if(fullurlin, change) setmodurl
 if(true) returnif embeddedcheck
 if(headerin,headermods) setmodheader
@@ -156,6 +157,7 @@ if(urlin, grey) return setgrey
 function(bannedcheck)
 if(true) returnif checkblanketblock
 if(urlin, banned) return setblock
+if(urlin,bannedextension) return setblock
 if(useragentin, banneduseragent) return setblock
 if(headerin, bannedheader) return setblock
 

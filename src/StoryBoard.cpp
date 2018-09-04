@@ -203,7 +203,8 @@ bool StoryBoard::readFile(const char *filename, ListMeta &LM, bool is_top) {
                         types = {LIST_TYPE_IPSITE, LIST_TYPE_SITE, LIST_TYPE_REGEXP_BOOL};
                         break;
                     case SB_STATE_URLIN:
-                        types = {LIST_TYPE_IPSITE, LIST_TYPE_SITE, LIST_TYPE_URL, LIST_TYPE_REGEXP_BOOL};
+                        types = {LIST_TYPE_IPSITE, LIST_TYPE_SITE,
+                                 LIST_TYPE_URL, LIST_TYPE_FILE_EXT, LIST_TYPE_REGEXP_BOOL};
                         break;
                     case SB_STATE_SEARCHIN:
                         types = {LIST_TYPE_SEARCH};
@@ -507,7 +508,7 @@ bool StoryBoard::runFunct(unsigned int fID, NaughtyFilter &cm) {
                 } else {
                     t = target;
                 }
-                if (cm.issiteonly && j->type == LIST_TYPE_URL)
+                if (cm.issiteonly && (j->type == LIST_TYPE_URL || j->type == LIST_TYPE_FILE_EXT))
                    continue;
                 if (!(cm.isiphost) && j->type == LIST_TYPE_IPSITE)
                     continue;
@@ -879,7 +880,8 @@ std::deque<url_rec> StoryBoard::ipToHostname(NaughtyFilter &cm) {
     std::deque<url_rec> result;
     const char *ip = cm.urldomain.c_str();
     String urlp = cm.urld.after("/");
-    struct in_addr address, **addrptr;
+    //struct in_addr address, **addrptr;
+    struct in_addr address;
     if (inet_aton(ip, &address)) { // convert to in_addr
         struct hostent *answer;
         answer = gethostbyaddr((char *) &address, sizeof(address), AF_INET);
